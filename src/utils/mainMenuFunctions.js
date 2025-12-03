@@ -37,7 +37,21 @@ export function profileIcon(scene) {
         img.on("pointerdown", () => togglePopup(scene));
     };
 
+    //  Si ya había una imagen antes → destruirla
+    if (scene.img) {
+        scene.img.destroy();
+        scene.img = null;
+    }
+
+    //  Si ya existía la textura → eliminarla del caché
+    if (scene.textures.exists("userProfile")) {
+        scene.textures.remove("userProfile");
+    }
+
     if (user && user.photoURL) {
+        // ✅ Cache busting para forzar descarga nueva
+        const freshUrl = `${user.photoURL}?t=${Date.now()}`;
+
         scene.load.once("complete", () => {
             const img = scene.add.image(width / 1.05, height / 12, "userProfile");
 
@@ -57,7 +71,7 @@ export function profileIcon(scene) {
             scene.img = img
             makeInteractive(img);
         });
-        scene.load.image("userProfile", user.photoURL);
+        scene.load.image("userProfile", freshUrl);
         scene.load.start();
     } else {
         const img = scene.add.image(width / 1.05, height / 12, "profileIcon").setScale(1);

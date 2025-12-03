@@ -47,13 +47,13 @@ export class MainMenu extends Phaser.Scene {
 
         console.log("MODE:  ", this.mode);
 
-        if(this.mode === "web"){
+        if (this.mode === "web") {
             const user = auth.currentUser;
-    
+
             profileIcon(this);
-    
+
             createPopup(this);
-    
+
             if (user) { // mostrar si esta logeado 
                 const email = user.email;
                 this.yesUserText = this.add.text(width / 1.1, height / 12, getPhrase(this.yesUser) + " " + email, {
@@ -149,13 +149,13 @@ export class MainMenu extends Phaser.Scene {
             color: "#303decff",
             fontFamily: "MyFont"
         }).setOrigin(0.5);
-        
+
         this.westText.angle = 15
-        
+
         // language selector
-        
+
         this.languageActive = false
-        
+
         const langs = [ // declarar las banderas disponibles 
             { key: "flagES", code: ES },
             { key: "flagEN", code: EN },
@@ -165,10 +165,10 @@ export class MainMenu extends Phaser.Scene {
                 this.getTranslations(langCode)
                 localStorage.setItem("language", langCode);
             }
-            
+
         });
         this.languageSelector.setLanguage(this.language); // setea el idioma al del local storage
-        
+
         this.selector = 3  // posicion del highlight inicial
         highlightText(this)
     }
@@ -183,14 +183,14 @@ export class MainMenu extends Phaser.Scene {
             this.languageText.setText("◦ " + getPhrase(this.idioma));
             this.westText.setText(getPhrase(this.select));
             if (this.yesUserText) this.yesUserText.setText(getPhrase(this.yesUser) + " " + auth.currentUser.email);
-            else this.noUserText.setText(getPhrase(this.noUser));
+            else if (this.noUserText) this.noUserText.setText(getPhrase(this.noUser));
 
         }
 
         // Si el input está bloqueado, no procesar nada
         if (this.isInputLocked) return;
 
-        if(this.mode === "web"){
+        if (this.mode === "web") {
             if (Phaser.Input.Keyboard.JustDown(this.RegisterKey)) {
                 this.sound.stopAll();
                 this.scene.start("Register");
@@ -255,9 +255,10 @@ export class MainMenu extends Phaser.Scene {
             if (this.selector === 1) {// SCOREBOARD
             }
             if (this.selector === 0) { // LANGUAGE
-                this.languageActive = true
-                this.languageSelector.toggleArrows()
-
+                if (navigator.onLine) {
+                    this.languageActive = true
+                    this.languageSelector.toggleArrows()
+                }
             }
         }
 
