@@ -107,9 +107,10 @@ export class LoginScene extends Phaser.Scene {
 
     createInputs() {
         this.formWrapper = document.createElement("div");
+        
         Object.assign(this.formWrapper.style, {
             position: "absolute",
-            top: "300px",
+            top: "30%",
             left: "50%",
             transform: "translateX(-50%)",
             display: "flex",

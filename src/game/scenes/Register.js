@@ -114,7 +114,7 @@ export class RegisterScene extends Phaser.Scene {
         // CONTENEDOR
         this.formWrapper = document.createElement("div");
         this.formWrapper.style.position = "absolute";
-        this.formWrapper.style.top = "300px";
+        this.formWrapper.style.top = "30%";
         this.formWrapper.style.left = "50%";
         this.formWrapper.style.transform = "translateX(-50%)";
         this.formWrapper.style.display = "flex";
